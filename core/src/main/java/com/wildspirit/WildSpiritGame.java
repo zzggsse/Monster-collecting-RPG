@@ -96,6 +96,16 @@ public class WildSpiritGame extends Game {
         try {
             Pixmap pm = Pixmap.createFromFrameBuffer(0, 0,
                     Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+            // OpenGL 帧缓冲行序自底向上，转换为 PNG 前需上下翻转，否则截图颠倒
+            int w = pm.getWidth(), h = pm.getHeight();
+            for (int y = 0; y < h / 2; y++) {
+                for (int x = 0; x < w; x++) {
+                    int top = pm.getPixel(x, y);
+                    int bottom = pm.getPixel(x, h - 1 - y);
+                    pm.drawPixel(x, y, bottom);
+                    pm.drawPixel(x, h - 1 - y, top);
+                }
+            }
             FileHandle fh = Gdx.files.external("WildSpirit/screenshot.png");
             fh.parent().mkdirs();
             PixmapIO.writePNG(fh, pm);
