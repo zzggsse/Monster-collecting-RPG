@@ -1,0 +1,4 @@
+Noto Emoji artwork
+Licensed under the SIL Open Font License 1.1 OR Apache License 2.0.
+Source: https://github.com/googlefonts/noto-emoji
+Used as game creature icons. Redistributed unchanged (scaled) with this license file.

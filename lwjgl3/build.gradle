@@ -1,0 +1,15 @@
+apply plugin: 'application'
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+application {
+    mainClass = 'com.wildspirit.lwjgl3.Lwjgl3Launcher'
+}
+
+dependencies {
+    implementation project(':core')
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    runtimeOnly "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+}

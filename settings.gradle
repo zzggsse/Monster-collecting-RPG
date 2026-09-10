@@ -1,0 +1,2 @@
+rootProject.name = 'wildspirit'
+include 'core', 'lwjgl3'

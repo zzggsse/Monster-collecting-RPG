@@ -1,0 +1,41 @@
+apply plugin: 'java-library'
+
+dependencies {
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+}
+
+def generatedI18nDir = layout.buildDirectory.dir('generated-i18n').get().asFile
+
+// 收集 core 源码中出现过的中文字与常用符号，写入生成资源，保证字体不缺字。
+def cjkRanges = [ [0x2000, 0x206F], [0x2190, 0x21FF], [0x2500, 0x25FF],
+                  [0x3000, 0x303F], [0x4E00, 0x9FFF], [0xFF00, 0xFFEF] ]
+
+tasks.register('collectCjk') {
+    def srcDir = project.file('src/main/java')
+    inputs.dir srcDir
+    outputs.file file("$generatedI18nDir/i18n.txt")
+    doLast {
+        def chars = new TreeSet<Character>()
+        srcDir.eachFileRecurse(groovy.io.FileType.FILES) { f ->
+            if (f.name.endsWith('.java')) {
+                String text = f.getText('UTF-8')
+                text.each { ch ->
+                    int cp = (int) ch
+                    boolean hit = cjkRanges.any { r -> cp >= (int) r[0] && cp <= (int) r[1] }
+                    if (hit) {
+                        chars.add(ch)
+                    }
+                }
+            }
+        }
+        generatedI18nDir.mkdirs()
+        new File(generatedI18nDir, 'i18n.txt').setText(chars.join(''), 'UTF-8')
+    }
+}
+sourceSets.main.resources.srcDirs += rootProject.file('assets')
+sourceSets.main.resources.srcDirs += files(generatedI18nDir)
+tasks.named('processResources') { dependsOn tasks.named('collectCjk') }
+
+sourceCompatibility = 17
+targetCompatibility = 17
