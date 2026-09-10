@@ -102,10 +102,3 @@
 
 **想换人物 / 精灵图片？**
 直接替换 `assets/sprites/` 下的同名 PNG（64×64）即可，无需改代码。
-
-## 作者与许可
-
-- 作者：zzggsse（个人作品）
-- 精灵图标：Google Noto Emoji（[Apache-2.0 / SIL OFL 1.1](assets/sprites/NOTICE.txt)），可替换为自有美术
-- 界面字体：simhei.ttf（微软黑体，随项目分发，仅供个人学习使用）
-- 代码：MIT License 开源（见 [LICENSE](LICENSE)），可自由用于学习、修改与分发
